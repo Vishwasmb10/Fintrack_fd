@@ -5,6 +5,7 @@ import {supabase} from './supabaseClient';
 import Card from '../components/Card';
 import Loader from '../components/Loader';
 
+
 function App() {
 
   const [isClicked,setIsClicked]=useState(false);
