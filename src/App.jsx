@@ -12,6 +12,7 @@ import Stats from '../components/Stats';
 import statsIcon from './assets/statsIcon.png'
 import { Link } from 'react-router-dom';
 
+
 function App() {
 
   const [isClicked,setIsClicked]=useState(false);
