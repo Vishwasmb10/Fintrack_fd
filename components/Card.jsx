@@ -1,8 +1,6 @@
-import style from '../stylesheets/Card.module.css';
 import { supabase } from '../src/supabaseClient';
 import { fetchDetails, updateNet } from '../jsFiles/dataFetchFunctions';
 import { useState } from 'react';
-
 
 export default function Card(props){
     // const date=new Date();
@@ -83,46 +81,92 @@ export default function Card(props){
         }
     }
 
-    const type=`${props.transactionType}`;
+    const type = props.transactionType;
+    const borderColor = type === 'credit' ? 'border-l-4 border-l-credit' : 'border-l-4 border-l-debit';
 
-    return (<div className={`${style.card} ${type=='credit'?style.credit:style.debit}`}>
-        
-        {!editState?<><div className={style.info}>
-            <p>Product</p>
-            <p>{product}</p>
-        </div><div className={style.info}>
-                <p>Quantity</p>
-                <p>{quantity}</p>
-            </div><div className={style.info}>
-                <p>Amount</p>
-                <p>{amount}</p>
+    return (
+      <div className={`bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 ${borderColor} transition-all duration-200`}>
+        {!editState ? (
+          <>
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              <div className="text-center">
+                <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold mb-1">Product</p>
+                <p className="font-medium">{product}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold mb-1">Quantity</p>
+                <p className="font-medium">{quantity}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold mb-1">Amount</p>
+                <p className="font-medium">{amount}</p>
+              </div>
             </div>
-            <div className={style.buttonContainer}>
-                <button type="button" className={style.deleteBtn} onClick={deleteCard}>Delete</button>
-                <button type="button" className={style.editBtn} onClick={editCard}>Edit</button>
-            </div></>:<>
-                <div className={style.cardEditFormContainer}>
-                    <form className={style.cardEditFormC}>
-                        <div className={style.info}>
-                            <p>Product</p>
-                            <input type='text' className={style.inputField} value={product} onChange={handleProduct}/>
-                        </div>
-                        <div className={style.info}>
-                            <p>Quantity</p>
-                            <input type='text' className={style.inputField} value={quantity} onChange={handleQuantity}/>
-                        </div>
-                        <div className={style.info}>
-                            <p>Amount</p>
-                            <input type='text' className={style.inputField} value={amount} onChange={handleAmount}/>
-                        </div>
-                        <div className={style.buttonContainer}>
-                            <button type="button" className={style.submitBtn} onClick={submitCard}>Submit</button>  
-                            <button type="button" className={style.editBtn} onClick={editCard}>Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </>
-        }
+            <div className="flex justify-between gap-2 mt-4">
+              <button 
+                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-1.5 px-2 rounded text-sm font-medium transition-colors" 
+                onClick={deleteCard}
+              >
+                Delete
+              </button>
+              <button 
+                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-1.5 px-2 rounded text-sm font-medium transition-colors" 
+                onClick={editCard}
+              >
+                Edit
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="p-2">
+            <form className="space-y-3">
+              <div>
+                <label className="text-xs text-gray-500 dark:text-gray-400 block mb-1">Product</label>
+                <input 
+                  type='text' 
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white" 
+                  value={product} 
+                  onChange={handleProduct}
+                />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 dark:text-gray-400 block mb-1">Quantity</label>
+                <input 
+                  type='text' 
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white" 
+                  value={quantity} 
+                  onChange={handleQuantity}
+                />
+              </div>
+              <div>
+                <label className="text-xs text-gray-500 dark:text-gray-400 block mb-1">Amount</label>
+                <input 
+                  type='text' 
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white" 
+                  value={amount} 
+                  onChange={handleAmount}
+                />
+              </div>
+              <div className="flex justify-between gap-2 mt-4">
+                <button 
+                  type="button" 
+                  className="flex-1 bg-primary hover:bg-indigo-600 text-white py-1.5 px-2 rounded text-sm font-medium transition-colors" 
+                  onClick={submitCard}
+                >
+                  Submit
+                </button>
+                <button 
+                  type="button" 
+                  className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-1.5 px-2 rounded text-sm font-medium transition-colors" 
+                  onClick={editCard}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
         {/* <p>{props.idAttribute}</p> */}
-    </div>);
+      </div>
+    );
 }

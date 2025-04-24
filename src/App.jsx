@@ -1,128 +1,21 @@
-import { useEffect, useState, useContext } from 'react';
-import style from '../stylesheets/App.module.css';
-import Form from '../components/Form';
-import Card from '../components/Card';
-import Loader from '../components/Loader';
-import sortTransactions from '../jsFiles/sortTransactions';
-import { fetchDetails, updateNet, today } from '../jsFiles/dataFetchFunctions';
-import Calendar from '../components/Calendar';
-import ThemeToggle from '../components/ThemeToggle';
-import calendarIcon from './assets/calendar.png';
+import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import Dashboard from '../components/Dashboard';
 import Stats from '../components/Stats';
-import statsIcon from './assets/statsIcon.png';
-import { Link } from 'react-router-dom';
+import { today } from '../jsFiles/dataFetchFunctions';
+import ThemeToggle from '../components/ThemeToggle';
 import { ThemeContext } from './ThemeContext';
 
 function App() {
-  const [isClicked, setIsClicked] = useState(false);
-  const [cards, setCards] = useState([]);
-  const [debitData, setDebitData] = useState([]);
-  const [creditData, setCreditData] = useState([]);
-  const [net, setNet] = useState([]);
-  const [transactions, setTransactions] = useState([]);
   const [date, setDate] = useState(today);
-  const [pickDate, setPickDate] = useState(false);
   const { page } = useParams();
   const { isDarkMode } = useContext(ThemeContext);
 
-  function formDisplay() {
-    setIsClicked((isClicked) => !isClicked);
-    console.log(date);
-  }
-
-  function datePick() {
-    setPickDate((pickDate) => !pickDate);
-  }
-    
-  useEffect(() => {
-    fetchDetails(setCreditData, setDebitData, setNet, date);
-  }, []);
-
-  useEffect(() => {
-    fetchDetails(setCreditData, setDebitData, setNet, date);
-  }, [date]);
-
-  useEffect(() => {
-    setTransactions(sortTransactions(creditData, debitData));
-  }, [creditData, debitData]);
-
-  useEffect(() => {
-    setCards((prev) => {
-      return transactions.map((ele, index) => {
-        return (
-          <Card 
-            key={`${ele.transactionType} ${ele.id}`} 
-            product={ele.product} 
-            quantity={ele.quantity} 
-            amount={ele.amount} 
-            idAttribute={ele.id} 
-            transactionType={ele.transactionType} 
-            setCreditData={setCreditData} 
-            setDebitData={setDebitData} 
-            setNet={setNet} 
-            date={date}
-          />
-        );
-      });
-    });
-  }, [transactions]);
-
   return (
-    <div className={`${style.app} ${isDarkMode ? style.darkMode : ''}`}>
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
+      <ThemeToggle />
       {page !== 'stats' ? (
-        <>
-          <ThemeToggle />
-          <div className={style.header}>
-            <h1 className={style.appTitle}>FinTrack</h1>
-            {net.length > 0 ? (
-              <p className={net[0].net > 0 ? style.netAmount : style.netAmountLoss}>
-                Balance: {net[0].net}
-              </p>
-            ) : (
-              <div className={style.netAmount}><Loader /></div>
-            )}
-          </div>
-          
-          <div className={style.actionButtons}>
-              <button type='button' className={style.addBtn} onClick={formDisplay}>
-                +
-              </button>
-            <button className={style.iconBtn} onClick={datePick}>
-              <img src={calendarIcon} alt="calendar" />
-            </button>
-            <Link to="/stats">
-              <button className={style.iconBtn}>
-                <img src={statsIcon} alt="statsIcon" />
-              </button>
-            </Link>
-          </div>
-          
-          {pickDate && (
-            <div className={style.calendar}>
-              <Calendar setDate={setDate} setPickDate={setPickDate} />
-            </div>
-          )}
-          
-          {isClicked && (
-            <div className={style.formOverlay}>
-              <Form 
-                cards={cards} 
-                setCards={setCards} 
-                setIsClicked={setIsClicked} 
-                setNet={setNet} 
-                setCreditData={setCreditData} 
-                setDebitData={setDebitData} 
-                date={date}
-              />
-            </div>
-          )}
-          
-          <div className={style.cardsContainer}>
-            <h2 className={style.sectionTitle}>Transactions for {date}</h2>
-            <div className={style.cards}>{cards}</div>
-          </div>
-        </>
+        <Dashboard date={date} setDate={setDate} />
       ) : (
         <Stats />
       )}
