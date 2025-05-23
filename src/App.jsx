@@ -12,17 +12,19 @@ import ThemeToggle from '../components/ThemeToggle';
 import calendarIcon from './assets/calendar.png';
 import { useNavigate, useParams } from 'react-router-dom';
 import Stats from '../components/Stats';
+import statsIcon from './assets/statsIcon.png';
+import { Link } from 'react-router-dom';
 import { ThemeContext } from './ThemeContext';
 import Charts from '../components/Charts';
 
 function App() {
-  const [date, setDate] = useState(today);
-  const [creditData, setCreditData] = useState([]);
+  const [isClicked, setIsClicked] = useState(false);
+  const [cards, setCards] = useState([]);
   const [debitData, setDebitData] = useState([]);
+  const [creditData, setCreditData] = useState([]);
   const [net, setNet] = useState([]);
   const [transactions, setTransactions] = useState([]);
-  const [cards, setCards] = useState([]);
-  const [isClicked, setIsClicked] = useState(false);
+  const [date, setDate] = useState(today);
   const [pickDate, setPickDate] = useState(false);
   const { page } = useParams();
   const { isDarkMode } = useContext(ThemeContext);
@@ -78,8 +80,7 @@ function App() {
   }, [transactions]);
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
-      <ThemeToggle />
+    <div className={`${style.app} ${isDarkMode ? style.darkMode : ''}`}>
       {page !== 'stats' ? (
         <>
           <ThemeToggle />
