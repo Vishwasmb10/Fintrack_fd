@@ -15,6 +15,7 @@ import Stats from '../components/Stats';
 import statsIcon from './assets/statsIcon.png';
 import { Link } from 'react-router-dom';
 import { ThemeContext } from './ThemeContext';
+import Charts from '../components/Charts';
 
 function App() {
   const [isClicked, setIsClicked] = useState(false);
@@ -135,6 +136,8 @@ function App() {
             <h2 className={style.sectionTitle}>Transactions for {date}</h2>
             <div className={style.cards}>{cards}</div>
           </div>
+
+          <Charts creditData={creditData} debitData={debitData} />
         </>
       ) : (
         <Stats />

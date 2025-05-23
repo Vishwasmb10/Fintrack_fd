@@ -1,65 +1,119 @@
 /* index.css */
 :root {
-    /* Light theme (default) */
-    --bg-primary: #f5f7fa;
-    --bg-secondary: #ffffff;
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --accent-color: #4f46e5;
-    --border-color: #e2e8f0;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --credit-color: #10b981;
-    --debit-color: #ef4444;
-    --btn-primary: #4f46e5;
-    --btn-danger: #dc2626;
-    --btn-edit: #2563eb;
-    --hover-color: rgba(0, 0, 0, 0.05);
-  }
-  
-  [data-theme='dark'] {
-    --bg-primary: #1a202c;
-    --bg-secondary: #2d3748;
-    --text-primary: #f7fafc;
-    --text-secondary: #e2e8f0;
-    --accent-color: #6366f1;
-    --border-color: #4a5568;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    --credit-color: #34d399;
-    --debit-color: #f87171;
-    --btn-primary: #6366f1;
-    --btn-danger: #ef4444;
-    --btn-edit: #3b82f6;
-    --hover-color: rgba(255, 255, 255, 0.05);
-  }
-  
-  * {
+    /* Light Theme */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --accent-color: #8B5CF6;
+    --accent-hover: #7C3AED;
+    --btn-primary: #8B5CF6;
+    --btn-hover: #7C3AED;
+    --success-color: #22c55e;
+    --error-color: #ef4444;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --border-color: #e5e7eb;
+    --input-bg: #ffffff;
+    --input-border: #e5e7eb;
+    --input-focus: #8B5CF6;
+    --modal-bg: rgba(0, 0, 0, 0.5);
+    --modal-content: #ffffff;
+    --chart-grid: rgba(0, 0, 0, 0.05);
+    --chart-text: #4a4a4a;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #000000;
+    --bg-secondary: #111111;
+    --text-primary: #ffffff;
+    --text-secondary: #a3a3a3;
+    --accent-color: #8B5CF6;
+    --accent-hover: #7C3AED;
+    --btn-primary: #8B5CF6;
+    --btn-hover: #7C3AED;
+    --success-color: #22c55e;
+    --error-color: #ef4444;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --border-color: #333333;
+    --input-bg: #111111;
+    --input-border: #333333;
+    --input-focus: #8B5CF6;
+    --modal-bg: rgba(0, 0, 0, 0.8);
+    --modal-content: #111111;
+    --chart-grid: rgba(255, 255, 255, 0.15);
+    --chart-text: #a3a3a3;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  html, body {
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+html, body {
     height: 100%;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', 'Poppins', sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-  }
-  
-  #root {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+#root {
     height: 100%;
     width: 100%;
-  }
-  
-  #root > div {
+}
+
+#root > div {
     height: 100%;
-  }
-  
-  button {
+}
+
+button {
     cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  input, select, textarea {
-    font-family: 'Poppins', sans-serif;
-  }
+    font-family: inherit;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+input, select, textarea {
+    font-family: inherit;
+    outline: none;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border-radius: 6px;
+    padding: 8px 12px;
+    transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}

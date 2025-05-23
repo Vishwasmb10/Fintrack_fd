@@ -2,81 +2,108 @@
 .card {
     box-shadow: var(--card-shadow);
     width: 100%;
-    max-width: 250px;
-    padding: 15px;
-    border-radius: 12px;
-    font-family: 'Poppins', sans-serif;
+    max-width: 320px;
+    padding: 1.5rem;
+    border-radius: 16px;
+    font-family: inherit;
     display: flex;
     flex-direction: column;
     background-color: var(--bg-secondary);
-    transition: transform 0.2s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-color);
+    opacity: 0.8;
   }
   
   .card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 4px 8px -4px rgba(0, 0, 0, 0.06);
   }
   
   .info {
-    margin-bottom: 8px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    text-align: center;
-    background-color: var(--bg-secondary);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: left;
+    background-color: var(--bg-primary);
     border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+  }
+  
+  .info:hover {
+    border-color: var(--accent-color);
+    background-color: var(--bg-secondary);
   }
   
   .info > p:first-child {
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
-    margin-bottom: 4px;
+    margin-bottom: 0.375rem;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
   }
   
   .info > p:first-child + p {
     color: var(--text-primary);
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.125rem;
+    font-weight: 600;
   }
   
   .buttonContainer {
     display: flex;
     justify-content: space-between;
-    gap: 8px;
-    margin-top: 5px;
+    gap: 0.75rem;
+    margin-top: 1rem;
   }
   
   .deleteBtn, .editBtn, .submitBtn {
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.875rem;
     border: none;
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.2s;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
   }
   
   .deleteBtn:hover, .editBtn:hover, .submitBtn:hover {
-    opacity: 0.9;
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+  }
+  
+  .deleteBtn:active, .editBtn:active, .submitBtn:active {
+    transform: translateY(0);
   }
   
   .deleteBtn {
-    background-color: var(--btn-danger);
-    color: white;
+    background-color: var(--error-color);
+    color: #fff;
   }
   
   .editBtn {
-    background-color: var(--btn-edit);
-    color: white;
+    background-color: var(--accent-color);
+    color: #fff;
   }
   
   .submitBtn {
-    background-color: var(--btn-primary);
-    color: white;
+    background-color: var(--success-color);
+    color: #fff;
   }
   
   .debit {
@@ -89,17 +116,75 @@
   
   .inputField {
     width: 100%;
-    padding: 8px;
-    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
     border: 1px solid var(--border-color);
-    background-color: var(--bg-primary);
+    background-color: var(--input-bg);
     color: var(--text-primary);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+  }
+  
+  .inputField:hover {
+    border-color: var(--accent-color);
+  }
+  
+  .inputField:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background-color: var(--bg-secondary);
+  }
+  
+  .cardEditFormContainer {
+    width: 100%;
+  }
+  
+  .cardEditFormC {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .toast {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    font-weight: 600;
+    z-index: 9999;
+    border: 1px solid var(--accent-color);
+    animation: fadeInOut 2.5s forwards;
+  }
+  
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
   }
   
   @media (max-width: 768px) {
     .card {
       max-width: 100%;
       margin: 0 auto;
+    }
+    
+    .buttonContainer {
+      flex-direction: column;
+    }
+    
+    .deleteBtn, .editBtn, .submitBtn {
+      width: 100%;
     }
   }
