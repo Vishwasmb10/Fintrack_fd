@@ -1,45 +1,35 @@
-import { useState,useEffect } from "react";
-import { Link } from "react-router-dom";
-import { supabase } from "../src/supabaseClient";
-import style from "../stylesheets/Stats.module.css";
-import calendarIcon from '../src/assets/calendar.png'
-import homeIcon from "../src/assets/home.png"
-import StatsTable from "./StatsTable";
-import {fetchValuesByMonth} from "../jsFiles/dataFetchFunctions";
+import style from '../stylesheets/StatsTable.module.css';
+import { today } from '../jsFiles/dataFetchFunctions';
+const dateObj=new Date();
+const date=(`${dateObj.getFullYear()}-0${dateObj.getMonth()+1}-${dateObj.getDate()}`);
 
-function Stats(props){
-    const [dataByMonth,setDataByMonth]=useState([]);
-    const [month,setMonth]=useState(new Date().getMonth()+1);
-    const [pickMonth,setPickMonth]=useState(false);
-
-    const monthList=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const months=monthList.map((ele,index)=>{return <li key={index} value={index<9?`0${index+1}`:index+1} onClick={selectMonth}>{ele}</li>});
-
-    function monthPick(){
-      setPickMonth((pickMonth)=>!pickMonth);      
-    }
-
-    function selectMonth(e){
-      setMonth(e.target.value);
-      setPickMonth((pickMonth)=>!pickMonth);      
-    }
-    
-    useEffect(()=>{fetchValuesByMonth(setDataByMonth,month)},[month]);
-
-    return(
-        <div className={style.statsContainer}>
-            <Link to='/'><img src={homeIcon} alt="homeIcon" className={style.homeIcon}/></Link>
-            <p className={style.currentMonth} onClick={monthPick}>Month: {monthList[month-1]}</p>
-            {/* <div className={style.calendarIcon}><img src={calendarIcon} alt="calendar" onClick={monthPick}/></div> */}
-            <div className={style.statsTableWrapper}>{dataByMonth.length>0?<StatsTable dataByMonth={dataByMonth}/>:<p className={style.noData}>No data Found</p>}</div>
-            {pickMonth&&<div className={style.monthsContainer}>
-                        <ul>
-                        <p>Pick a Month</p>
-                        {months}
-                        </ul>
-              </div>}
-        </div>
+function StatsTable(props){
+    const creditSum=props.dataByMonth.map((ele)=>{return ele.credit}).reduce((sum,ele)=>sum+ele,0);
+    const dedbitSum=props.dataByMonth.map((ele)=>{return ele.debit}).reduce((sum,ele)=>sum+ele,0);
+    const net=creditSum-dedbitSum;
+    return (
+        <table className={style.statsTable}>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Credit</th>
+                <th>Debit</th>
+                <th>Net</th>
+            </tr>
+            </thead>
+            <tbody>
+            {props.dataByMonth.map((ele)=>{return <tr key={ele.date} className={ele.date==date?style.today:""}><td>{ele.date}</td><td>{ele.credit}</td><td>{ele.debit}</td><td>{ele.net}</td></tr>})}
+            </tbody>
+            <tfoot>
+            <tr className={style.total}>
+                <td>Total</td>
+                <td>{creditSum}</td>
+                <td>{dedbitSum}</td>
+                <td>{net}</td>
+            </tr>
+            </tfoot>
+        </table>
     );
 }
 
-export default Stats;
+export default StatsTable;
