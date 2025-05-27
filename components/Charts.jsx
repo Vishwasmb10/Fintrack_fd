@@ -10,8 +10,9 @@ import {
   Legend,
   Filler
 } from 'chart.js';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import style from '../stylesheets/Charts.module.css';
+import { ThemeContext } from '../src/ThemeContext';
 
 // Register ChartJS components
 ChartJS.register(
@@ -30,6 +31,10 @@ export default function Charts({ creditData, debitData }) {
 
   // Detect theme
   const isDark = typeof window !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'dark';
+  const { isDarkMode } = useContext(ThemeContext);
+  const primaryColor= isDarkMode?'white':'black';
+  const bgColor=!isDarkMode?'white':'black';
+
 
   // Process data for charts
   const processData = () => {
@@ -118,7 +123,7 @@ export default function Charts({ creditData, debitData }) {
             size: 12,
             weight: '600',
           },
-          color: 'var(--text-primary)',
+          color: primaryColor,
         },
       },
       title: {
@@ -128,16 +133,16 @@ export default function Charts({ creditData, debitData }) {
           size: 18,
           weight: '600',
         },
-        color: 'var(--text-primary)',
+        color: primaryColor,
         padding: {
           top: 10,
           bottom: 20,
         },
       },
       tooltip: {
-        backgroundColor: 'var(--bg-secondary)',
-        titleColor: 'var(--text-primary)',
-        bodyColor: 'var(--text-primary)',
+        backgroundColor: bgColor,
+        titleColor: primaryColor,
+        bodyColor: primaryColor,
         padding: 12,
         titleFont: {
           size: 14,
@@ -172,14 +177,14 @@ export default function Charts({ creditData, debitData }) {
       y: {
         beginAtZero: true,
         grid: {
-          color: 'var(--chart-grid)',
+          color: primaryColor,
           drawBorder: false,
         },
         ticks: {
           font: {
             size: 12,
           },
-          color: 'var(--chart-text)',
+          color: primaryColor,
           callback: function(value) {
             return new Intl.NumberFormat('en-IN', {
               style: 'currency',
@@ -197,7 +202,7 @@ export default function Charts({ creditData, debitData }) {
           font: {
             size: 12,
           },
-          color: 'var(--chart-text)',
+          color: primaryColor,
           maxRotation: 45,
           minRotation: 45,
         },
